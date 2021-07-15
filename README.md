@@ -1,23 +1,10 @@
----
-title: 'Image Classification on pytorch framework'
-disqus: hackmd
----
-
 Image-Classification-pytorch
 ===
 
-## Table of Contents
+Introduction
+---
 
-[TOC]
-
-## Beginners Guide
-
-If you are a total beginner to this, start here!
-
-1. 
-2. Click "Sign in"
-3. Choose a way to sign in
-4. Start writing note!
+透過資料集學習分類圖片，以CartoonSet為例，訓練一個網絡能夠分類該圖像是否為黑髮或金髮等等。
 
 Preparing dataset
 ---
