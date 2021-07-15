@@ -1,3 +1,5 @@
+import torch
+import torch.nn as nn
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -11,7 +13,6 @@ def plot_barchart(path, data):
 
 def load_model(model, path):
     model.load_state_dict(torch.load(path))
-    model = model.to(device)
     return model
 
 def set_parameter_requires_grad(model, feature_extracting):

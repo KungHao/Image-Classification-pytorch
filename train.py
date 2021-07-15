@@ -96,16 +96,16 @@ batch_size = 16
 num_epochs = 10
 input_size = 224
 
-feature_extract = True
-pretrained = True
+feature_extract = True # 是否要訓練convolutional layers
+pretrained = True # 是否要讀取ImageNet預訓練模式
 
 if dataset == 'celeba':
     crop_size = 178
 else:
     crop_size = 400
 
-path = f'../datasets/{dataset}/images'
-attr_path = f'../datasets/{dataset}/list_attr_{dataset}.txt'
+path = f'./datasets/{dataset}/images'
+attr_path = f'./datasets/{dataset}/list_attr_{dataset}.txt'
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
             # load_model(model, '../output_pth/{}_cartoon-{}(F).pkl'.format(attr, model_name))
             test(model, dataloaders_dict['test'])
             # Save model
-            model_path = '../output_pth/{}_{}-{}.pkl'.format(attr, dataset, model_name)
+            model_path = './experiments/checkpoints/{}_{}-{}.pkl'.format(attr, dataset, model_name)
             torch.save(model.state_dict(), model_path)
             print("Save {} model!!!".format(model_path))
 
@@ -160,4 +160,4 @@ if __name__ == '__main__':
             figure_data['Attribute Discriminator Accuracy'].append(max(hist).item())
 
     # Plot figure
-    plot_barchart(f'../MDGAN/experiments/Acc_figures/non-pre-trained_{dataset}.png', figure_data)
+    plot_barchart(f'./experiments/acc_figures/non-pre-trained_{dataset}.png', figure_data)

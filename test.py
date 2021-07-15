@@ -1,6 +1,6 @@
-from train import Cartoon, DataLoader, T, classification_report, random_sampler, initialize_model, load_model
+from train import Cartoon, DataLoader, T, classification_report, initialize_model, load_model
 import torch
-import torch.nn as nn
+from tqdm import tqdm
 
 def get_loader(image_dir, attr_path, selected_attrs, crop_size=378, image_size=224, 
                batch_size=16):
@@ -18,6 +18,13 @@ def get_loader(image_dir, attr_path, selected_attrs, crop_size=378, image_size=2
     dataloader['test'] = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=1)
 
     return dataloader
+
+def set_crop_size(dataset):
+    if dataset == 'celeba':
+        crop_size = 178
+    else:
+        crop_size = 400
+    return crop_size
 
 def test(model, test_loader):
     model = model.to(device)
@@ -42,17 +49,21 @@ def test(model, test_loader):
 
 if __name__ == '__main__':
     dataset = 'celeba'
-    crop_size = 178
+    crop_size = set_crop_size(dataset)
     attr = 'Brown_Hair'
     model_name = 'AlexNet'
     num_classes = 1
+    
     feature_extract = False
     pretrained = False
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+
 
     model, input_size = initialize_model(model_name, num_classes, feature_extract, use_pretrained=pretrained)
-    model = model.cuda()
     dataloaders_dict = get_loader(f'../datasets/{dataset}/images', f'../datasets/{dataset}/list_attr_{dataset}.txt', [attr], crop_size, 224)
     load_model(model, '../output_pth/{}_{}-{}(F).pkl'.format(attr, dataset, model_name))
+    model = model.to(device)
 
     model.eval()
     pred_list = []
